@@ -6,10 +6,10 @@ import { SVGLoader } from "three/addons/loaders/SVGLoader.js";
 -------------------- */
 const indicator = document.getElementById("scroll-indicator");
 function status(msg) {
-  if (indicator) {
-    indicator.style.opacity = "1";
-    indicator.textContent = msg;
-  }
+  // if (indicator) {
+  //   indicator.style.opacity = "1";
+  //   indicator.textContent = msg;
+  // }
   console.log("[STATUS]", msg);
 }
 
@@ -107,7 +107,7 @@ function fitCameraToObject(obj, padding = 1.35) {
   );
   camera.lookAt(center);
 
-  status(`Camera fitted. frustum=${frustum.toFixed(1)} maxDim=${maxDim.toFixed(1)}`);
+  // status(`Camera fitted. frustum=${frustum.toFixed(1)} maxDim=${maxDim.toFixed(1)}`);
 }
 
 /* --------------------

@@ -83,8 +83,28 @@ animate();
 
 let hasInteracted_3 = false;
 
+let isMobileHoverShown = false;
+
 function toggleScene() {
+    // If mobile, check if hover image is already shown
+    if (window.innerWidth <= 1080) {
+        const hoverImgM = document.querySelector('.center-hover-img-m');
+        if (hoverImgM && !isMobileHoverShown) {
+            hoverImgM.style.display = "block";
+            isMobileHoverShown = true;
+            return; // Only show hover image on first touch
+        }
+    }
+
     hasInteracted_3 = true;
+
+    // 씬 전환이 일어날 때 모바일 호버 이미지 숨김
+    const hoverImgM = document.querySelector('.center-hover-img-m');
+    if (hoverImgM) {
+        hoverImgM.style.display = "none";
+        isMobileHoverShown = false;
+    }
+
     if (scene1.classList.contains('active-scene')) {
         goToScene2();
     } else {
@@ -138,48 +158,37 @@ window.addEventListener('dblclick', (e) => {
 });
 
 // 기타 버튼/호버 리스너
+// 전체 배경 클릭 시에도 작동하도록 수정
 document.addEventListener('DOMContentLoaded', () => {
     const homeBtn = document.querySelector(".home-button");
+    const hoverTrigger = document.querySelector('.hover-trigger');
+    const hoverImgM = document.querySelector('.center-hover-img-m');
+    const container = document.querySelector('.container');
+
     if (homeBtn) {
         homeBtn.addEventListener("click", (e) => {
-
             redirectToRandomHome();
         });
     }
 
-    const hoverTrigger = document.querySelector('.hover-trigger');
-    const hoverImgM = document.querySelector('.center-hover-img-m');
-
-    if (hoverTrigger) {
-        hoverTrigger.addEventListener('click', (e) => {
-            if (window.innerWidth <= 1080) {
-
-                if (typeof isTOCVisible !== 'undefined' && isTOCVisible) return;
-
-                const isCurrentlyVisible = hoverImgM && hoverImgM.style.display === "block";
-                if (hoverImgM) {
-                    hoverImgM.style.display = isCurrentlyVisible ? "none" : "block";
-                }
-            } else {
-                // Desktop click = toggle scene
-                toggleScene();
-            }
+    // [중요] 씬이나 호버 트리거를 터치하면 toggleScene이 실행되도록 일원화
+    if (container) {
+        container.addEventListener('click', (e) => {
+            if (nextScreen.classList.contains('active')) return;
+            toggleScene();
         });
     }
 
-    // Hide mobile hover image if clicking anywhere else
+    // 모바일에서 영역 외 클릭 시 호버 이미지 숨김
     window.addEventListener('click', (e) => {
         if (window.innerWidth <= 1080 && hoverImgM) {
-            if (hoverTrigger && hoverTrigger.contains(e.target)) return;
-            hoverImgM.style.display = "none";
+            // container 바깥을 클릭했을 때만 숨김
+            if (!container.contains(e.target)) {
+                hoverImgM.style.display = "none";
+                isMobileHoverShown = false;
+            }
         }
     });
-
-    if (hoverTrigger) {
-        hoverTrigger.addEventListener('mouseleave', () => {
-
-        });
-    }
 });
 
 /* Custom Cursor JS - Home Screen Version */

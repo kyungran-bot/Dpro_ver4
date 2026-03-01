@@ -46,16 +46,36 @@ window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 
+let isMobileHoverShown_2 = false;
+
 // --- 3. Phase 1: 박스 애니메이션 시작 ---
 function startBoxAnimation() {
     if (isAnimating || isDrawingMode) return;
 
+    // [추가] 모바일 대응: 이미 호버 이미지가 떠 있는 상태가 아니면 호버 이미지만 띄웁니다.
+    if (window.innerWidth <= 1080) {
+        const hoverImgM = document.querySelector('.center-hover-img-m');
+        if (hoverImgM && !isMobileHoverShown_2) {
+            hoverImgM.style.display = "block";
+            isMobileHoverShown_2 = true;
+            return; // 첫 터치 시에는 호버 이미지만 띄우고 종료
+        }
+    }
+
     isAnimating = true;
     hasInteracted_2 = true;
 
-    // [수정됨] 클릭하는 순간 호버 이미지가 사라지지 않게 강제로 보이게 고정합니다.
-    // (트리거가 사라지면 CSS 호버가 풀리기 때문에 JS로 잡아주는 것)
-    pxHover.style.opacity = '1';
+    // [수정] 데스크탑에서는 호버 이미지를 고정하고, 모바일에서는 호버 이미지의 z-index를 낮춰 박스가 보이게 합니다.
+    if (window.innerWidth > 1080) {
+        pxHover.style.opacity = '1';
+    } else {
+        const hoverImgM = document.querySelector('.center-hover-img-m');
+        if (hoverImgM) {
+            hoverImgM.style.display = 'block';
+            hoverImgM.style.zIndex = '5'; // 박스(10)보다 아래로 내려서 애니메이션이 보이게 함
+            isMobileHoverShown_2 = false; // 진행 중에는 플래그 리셋 (필요시)
+        }
+    }
 
     // 클릭 트리거 제거 (중복 클릭 방지)
     clickTrigger.style.display = 'none';
@@ -94,6 +114,8 @@ function startDrawingMode() {
     // 2. [수정됨] 이제서야 텍스트와 호버 이미지를 숨깁니다.
     pxText.style.opacity = '0';
     pxHover.style.opacity = '0';
+    const hoverImgM = document.querySelector('.center-hover-img-m');
+    if (hoverImgM) hoverImgM.style.display = 'none';
 
     // 박스 컨테이너 숨김
     boxContainer.style.display = 'none';
@@ -188,6 +210,11 @@ function resetPage() {
         // 텍스트 & 호버 이미지 스타일 초기화 (CSS 호버가 다시 작동하도록)
         pxText.style.opacity = '';
         pxHover.style.opacity = '';
+        const hoverImgM = document.querySelector('.center-hover-img-m');
+        if (hoverImgM) {
+            hoverImgM.style.display = 'none';
+            hoverImgM.style.zIndex = ''; // z-index 초기화
+        }
 
         boxContainer.style.display = 'block';
         allBoxes.forEach(box => box.classList.remove('box-visible'));
@@ -236,36 +263,23 @@ window.addEventListener('dblclick', (e) => {
 
 let hasInteracted_2 = false;
 
-// 호버 이탈 시 랜덤 이동
+// 호버 및 애니메이션 트리거
 if (clickTrigger) {
-    const hoverImgM = document.querySelector('.center-hover-img-m');
-
     clickTrigger.addEventListener('click', (e) => {
+        // TOC가 보일 때는 트리거 무시
+        if (typeof isTOCVisible !== 'undefined' && isTOCVisible) return;
+        startBoxAnimation();
+    });
+
+    // 모바일에서 영역 외 클릭 시 호버 이미지 숨김
+    window.addEventListener('click', (e) => {
         if (window.innerWidth <= 1080) {
-
-            if (typeof isTOCVisible !== 'undefined' && isTOCVisible) return;
-
-            const isCurrentlyVisible = hoverImgM && hoverImgM.style.display === "block";
-            if (hoverImgM) {
-                hoverImgM.style.display = isCurrentlyVisible ? "none" : "block";
+            const hoverImgM = document.querySelector('.center-hover-img-m');
+            if (hoverImgM && !clickTrigger.contains(e.target)) {
+                hoverImgM.style.display = "none";
+                isMobileHoverShown_2 = false;
             }
         }
-    });
-
-    // Hide mobile hover image if clicking anywhere else
-    window.addEventListener('click', (e) => {
-        if (window.innerWidth <= 1080 && hoverImgM) {
-            if (clickTrigger && clickTrigger.contains(e.target)) return;
-            hoverImgM.style.display = "none";
-        }
-    });
-
-    clickTrigger.addEventListener('mouseleave', () => {
-        // 이미 애니메이션 중이거나 그리기 모드면 무시
-        if (isAnimating || isDrawingMode) return;
-
-        // 인터렉션을 한 번이라도 수행한 이후에만 랜덤 이동
-
     });
 }
 

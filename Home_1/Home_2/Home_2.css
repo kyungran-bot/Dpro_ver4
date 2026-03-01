@@ -130,10 +130,11 @@ body {
     /* background-color: rgba(255, 0, 0, 0.3); */
 }
 
-/* [핵심] 호버 기능 구현 */
-/* 트리거에 마우스를 올리면 -> 동생 요소인 px_hover가 나타남 */
-#click-trigger:hover~#px_hover {
-    opacity: 1;
+/* [핵심] 호버 기능 구현 - 마우스가 있는 경우에만 작동 */
+@media (hover: hover) {
+    #click-trigger:hover~#px_hover {
+        opacity: 1;
+    }
 }
 
 .center-hover-img-m {
@@ -148,9 +149,10 @@ body {
     pointer-events: none;
 }
 
+/* 모바일에서 웹용 호버 이미지 강제 차단 */
 @media (max-width: 1080px) {
-    #click-trigger:hover~#px_hover {
-        opacity: 0 !important;
+    #px_hover {
+        display: none !important;
     }
 }
 

@@ -10,7 +10,7 @@ body {
 }
 
 body {
-    background-color: #111;
+    background-color: #fff;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -82,6 +82,29 @@ body {
 @media (max-width: 1080px) {
     .hover-trigger:hover~.center-hover-img {
         opacity: 0 !important;
+    }
+
+    /* [추가] 모바일에서 에셋이 다 보이도록 크기 조절 */
+    .interaction-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+    }
+
+    .layer {
+        width: 90% !important;
+        height: 90% !important;
+        top: 5% !important;
+        left: 5% !important;
+        object-fit: contain !important;
+    }
+
+    .hover-trigger {
+        width: 150px;
+        height: 150px;
     }
 }
 

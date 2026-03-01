@@ -176,10 +176,10 @@
 
         /* Hover Trigger */
         .hover-trigger {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) translateZ(500px);
+            transform: translate(-50%, -50%);
             width: 300px;
             height: 300px;
             border-radius: 50%;
@@ -205,8 +205,10 @@
             transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .hover-overlay.active {
-            opacity: 1;
+        @media (hover: hover) {
+            .hover-overlay.active {
+                opacity: 1;
+            }
         }
 
         .hover-overlay img {
@@ -227,9 +229,15 @@
             pointer-events: none;
         }
 
+        /* 모바일에서 웹용 호버 이미지(첫번째 자식) 강제 차단 */
         @media (max-width: 1080px) {
-            .hover-overlay.active {
-                opacity: 0 !important;
+            .hover-overlay img:first-child {
+                display: none !important;
+            }
+
+            .hover-overlay {
+                pointer-events: none;
+                /* 모바일에서 레이어가 클릭을 방해하지 않도록 */
             }
         }
 
@@ -625,8 +633,6 @@
                 <div class="line bottom-right"></div>
             </div>
 
-            <div class="hover-trigger"></div>
-
             <div class="layer combined-photo"><img src="combined.png" alt="Dpro Combined"></div>
             <div class="layer middle-plate"><img src="base_plate.png" alt="Middle Plate"></div>
             <div class="layer middle-plate-green"><img src="top_layer.png" alt="Green Top Text"></div>
@@ -635,10 +641,12 @@
         </div>
     </div>
 
+    <div class="hover-trigger"></div>
+
     <div class="hover-overlay">
         <img src="hover_image.png" alt="Hover Overlay">
-        <img src="../../hover_image_m.png" alt="Hover Overlay Mobile" class="center-hover-img-m">
     </div>
+    <img src="../../hover_image_m.png" alt="Hover Overlay Mobile" class="center-hover-img-m">
 
     <div id="next-screen">
         <div class="central-bar">
@@ -743,6 +751,8 @@
 
         // Hover image logic
         const hoverImgM = document.querySelector('.center-hover-img-m');
+        let isMobileHoverShown = false;
+
         if (trigger && overlay) {
             trigger.addEventListener('mouseenter', () => {
                 if (window.innerWidth > 1080) {
@@ -759,13 +769,18 @@
             // Mobile touch interaction
             trigger.addEventListener('click', (e) => {
                 if (window.innerWidth <= 1080) {
-
                     const isVisible = nextScreen.classList.contains('active') || nextScreen.style.display === 'flex';
                     if (isVisible) return;
 
-                    const isCurrentlyVisible = hoverImgM && hoverImgM.style.display === "block";
-                    if (hoverImgM) {
-                        hoverImgM.style.display = isCurrentlyVisible ? "none" : "block";
+                    if (!isMobileHoverShown) {
+                        if (hoverImgM) {
+                            hoverImgM.style.display = "block";
+                            isMobileHoverShown = true;
+                        }
+                    } else {
+                        // Toggle off if already shown
+                        hoverImgM.style.display = "none";
+                        isMobileHoverShown = false;
                     }
                 }
             });
@@ -773,8 +788,9 @@
             // Hide mobile hover image if clicking anywhere else
             window.addEventListener('click', (e) => {
                 if (window.innerWidth <= 1080 && hoverImgM) {
-                    if (trigger && trigger.contains(e.target)) return;
+                    if (trigger && (trigger.contains(e.target) || e.target === trigger)) return;
                     hoverImgM.style.display = "none";
+                    isMobileHoverShown = false;
                 }
             });
         }

@@ -111,8 +111,11 @@ body {
 }
 
 
-.hover-trigger:hover~.center-hover-img {
-    opacity: 1;
+/* 마우스가 있는 경우에만 작동 */
+@media (hover: hover) {
+    .hover-trigger:hover~.center-hover-img {
+        opacity: 1;
+    }
 }
 
 .center-hover-img-m {
@@ -127,9 +130,10 @@ body {
     pointer-events: none;
 }
 
+/* 모바일에서 웹용 호버 이미지 강제 차단 */
 @media (max-width: 1080px) {
-    .hover-trigger:hover~.center-hover-img {
-        opacity: 0 !important;
+    .center-hover-img {
+        display: none !important;
     }
 }
 

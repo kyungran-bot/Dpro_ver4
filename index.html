@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPRO - Random Home Redirect</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const homes = [
+                "Home_1/Home_1.html",
+                "Home_1/Home_2/Home_2.html",
+                "Home_1/Home_3/Home_3.html",
+                "Home_1/Home_4/Home_4.html",
+                "Home_1/Home_5/index.html",
+                "Home_1/Home_6/index.html",
+                "Home_1/Home_7/index.html"
+            ];
+            const randomHome = homes[Math.floor(Math.random() * homes.length)];
+            window.location.replace('./' + randomHome);
+        });
+    </script>
+    <style>
+        /* Custom Cursor CSS */
+        * {
+            cursor: none !important;
+        }
+
+        .custom-cursor {
+            position: fixed;
+            width: 14px;
+            height: 14px;
+            border-radius: 9999px;
+            background: #09FF8E;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 999999;
+            display: block !important;
+        }
+    </style>
+</head>
+
+<body
+    style="background-color: #fdfdfd; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif;">
+    <p>Loading...</p>
+    <script>
+    </script>
+    <script>
+    </script>
+    <script>
+        /* Custom Cursor JS */
+        (function () {
+            if (document.querySelector('.custom-cursor')) return;
+            const cursor = document.createElement('div');
+            cursor.className = 'custom-cursor';
+            document.body.appendChild(cursor);
+
+            window.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPRO Archiving</title>
+    <link rel="stylesheet" href="Home_1.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <main class="interaction-container" onclick="dropNextGroup()">
+
+        <img src="./Homeasset_1/book_back.png" alt="background guide" class="layer base-layer">
+
+        <img src="./Homeasset_1/book_1.png" id="book_1" class="layer falling-book">
+        <img src="./Homeasset_1/book_2.png" id="book_2" class="layer falling-book">
+        <img src="./Homeasset_1/book_3.png" id="book_3" class="layer falling-book">
+        <img src="./Homeasset_1/book_4.png" id="book_4" class="layer falling-book">
+        <img src="./Homeasset_1/book_5.png" id="book_5" class="layer falling-book">
+        <img src="./Homeasset_1/book_6.png" id="book_6" class="layer falling-book">
+        <img src="./Homeasset_1/book_7.png" id="book_7" class="layer falling-book">
+        <img src="./Homeasset_1/book_8.png" id="book_8" class="layer falling-book">
+        <img src="./Homeasset_1/book_9.png" id="book_9" class="layer falling-book">
+        <img src="./Homeasset_1/book_10.png" id="book_10" class="layer falling-book">
+        <img src="./Homeasset_1/book_11.png" id="book_11" class="layer falling-book">
+        <img src="./Homeasset_1/book_12.png" id="book_12" class="layer falling-book">
+        <img src="./Homeasset_1/book_13.png" id="book_13" class="layer falling-book">
+
+        <img src="./Homeasset_1/book_13.png" id="book_13_2" class="layer falling-book">
+        <div class="hover-trigger"></div>
+        <img src="./Homeasset_1/hover_image.png" class="center-hover-img">
+        <img src="../hover_image_m.png" class="center-hover-img-m">
+
+    </main>
+
+    <div id="next-screen" style="display: none;">
+        <div class="central-bar">
+            <div class="scrolling-images">
+                <img src="../autoscroll/507.png" alt="507.png">
+                <img src="../autoscroll/01.png" alt="01.png">
+                <img src="../autoscroll/21.png" alt="21.png">
+                <img src="../autoscroll/6.jpg" alt="6.jpg">
+                <img src="../autoscroll/DSC03368.JPG" alt="DSC03368.JPG">
+                <img src="../autoscroll/DSCF3071.JPG" alt="DSCF3071.JPG">
+                <img src="../autoscroll/KakaoTalk_Photo_2023-03-04-10-16-36%20002.jpeg"
+                    alt="KakaoTalk_Photo_2023-03-04-10-16-36 002.jpeg">
+                <img src="../autoscroll/2026-02-28.png" alt="2026-02-28.png">
+                <img src="../autoscroll/IMAGINE.jpeg" alt="IMAGINE.jpeg">
+                <img src="../autoscroll/507.png" alt="507.png">
+                <img src="../autoscroll/01.png" alt="01.png">
+                <img src="../autoscroll/21.png" alt="21.png">
+                <img src="../autoscroll/6.jpg" alt="6.jpg">
+                <img src="../autoscroll/DSC03368.JPG" alt="DSC03368.JPG">
+                <img src="../autoscroll/DSCF3071.JPG" alt="DSCF3071.JPG">
+                <img src="../autoscroll/KakaoTalk_Photo_2023-03-04-10-16-36%20002.jpeg"
+                    alt="KakaoTalk_Photo_2023-03-04-10-16-36 002.jpeg">
+                <img src="../autoscroll/2026-02-28.png" alt="2026-02-28.png">
+                <img src="../autoscroll/IMAGINE.jpeg" alt="IMAGINE.jpeg">
+            </div>
+        </div>
+        <div class="left-content">
+            <div class="home-button">
+                <span class="home-arrow"></span>
+                <span class="home-text">go to Home</span>
+            </div>
+            <div class="dpro-logo">
+                <img src="dprologo.png" alt="Dpro Logo">
+            </div>
+            <div class="menu-items">
+                <a href="../Dpro%3F/index2.html" style="text-decoration:none; color:inherit; display:block;">
+                    <div>디프로란?</div>
+                </a>
+                <a href="../archive1/index.html?tab=cohort" style="text-decoration:none; color:inherit; display:block;">
+                    <div>기수별 활동</div>
+                </a>
+                <a href="../Seniors_active/index3.html" style="text-decoration:none; color:inherit; display:block;">
+                    <div>선배님들 활동</div>
+                </a>
+            </div>
+        </div>
+        <div class="right-content">
+            <div class="social-info">
+                Instagram @designtobeapro<br>
+                E-mail designtobeapro@gmail.com
+            </div>
+            <div class="footer-logos">
+                <img src="dpo.svg" alt="Dpro text logo" class="footer-dpo">
+                <img src="ewha.svg" alt="Ewha logo" class="footer-ewha">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let lastTap = 0;
+        const threshold = 350; // 두 번 탭 인식 시간(ms)
+
+        document.addEventListener("click", (e) => {
+            const now = Date.now();
+            if (now - lastTap < threshold) {
+                // 기존 dblclick 이벤트를 발생시켜 목차 페이지(next-screen)를 엽니다.
+                window.dispatchEvent(new MouseEvent('dblclick'));
+            }
+            lastTap = now;
+        }, { capture: true });
+    </script>
+    <script src="Home_1.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,175 @@
+/* 기본 초기화 및 형광 연두색(#09FF8E) 원 커서 설정 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Pretendard', sans-serif;
+    /* 12px 크기의 원형 커서 (이미지 파일 없이 SVG로 구현) */
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><circle cx='6' cy='6' r='5' fill='%2309FF8E'/></svg>") 6 6, auto;
+}
+
+body {
+    background-color: #FFFFFF;
+    color: #1a1a1a;
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: -0.015em;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><circle cx='6' cy='6' r='5' fill='%2309FF8E'/></svg>") 6 6, auto;
+}
+
+/* 링크 및 로고 위에서도 원형 커서 유지 */
+a,
+button,
+.brand__logo {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><circle cx='6' cy='6' r='5' fill='%2309FF8E'/></svg>") 6 6, pointer;
+}
+
+/* 1. 상단 헤더: logo2 이미지 중앙 정렬 및 1px 선 */
+.header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 100;
+}
+
+.header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 15px 40px;
+    /* 선 두께 1px로 상향, 색상은 더 진하게(#000) */
+    border-bottom: 1px solid #000;
+    text-align: center;
+}
+
+.brand__logo {
+    display: block;
+    margin: 0 auto;
+    height: 28px;
+    /* 상단 로고 크기 조절 */
+    width: auto;
+}
+
+/* 2. 전체 레이아웃 */
+.wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 120px 40px 100px 40px;
+}
+
+/* 3. 본문 큰 로고 및 슬로건 영역 */
+.intro-visual-group {
+    margin-bottom: 80px;
+    text-align: left;
+}
+
+.intro-logo-image {
+    height: 45px;
+    width: auto;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.intro-slogan {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: -0.02em;
+}
+
+/* 4. 아카이브 리스트 */
+.archive-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 60px 0;
+    align-items: flex-start;
+    border-top: 0.5px solid #f0f0f0;
+}
+
+.summary {
+    flex: 0 0 300px;
+    font-weight: 700;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+/* 카테고리 옆 형광 연두색 점 */
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #09FF8E;
+    border-radius: 50%;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.description {
+    flex: 0 0 60%;
+    text-align: left;
+}
+
+/* Custom Cursor CSS */
+* {
+    cursor: none !important;
+}
+
+.custom-cursor {
+    position: fixed;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: #09FF8E;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 999999;
+    display: block !important;
+}
+
+/* 5. Mobile Responsiveness */
+@media (max-width: 1080px) {
+    .header-inner {
+        padding: 15px 20px;
+    }
+
+    .wrapper {
+        padding: 80px 20px 60px;
+    }
+
+    .archive-row {
+        flex-direction: column;
+        padding: 40px 0;
+        gap: 15px;
+    }
+
+    .summary {
+        flex: none;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .description {
+        flex: none;
+        width: 100%;
+    }
+
+    .intro-slogan {
+        font-size: 16px;
+    }
+
+    .intro-logo-image {
+        height: 35px;
+    }
+
+    /* Global text wrap fixes */
+    body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    p {
+        word-break: keep-all;
+        overflow-wrap: break-word;
+    }
+}

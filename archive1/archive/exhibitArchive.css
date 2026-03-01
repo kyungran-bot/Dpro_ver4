@@ -1,0 +1,403 @@
+:root {
+  --line: #000000;
+  --lineW: 1px;
+}
+
+/* 전체 */
+.page {
+  background: #ffffff;
+  color: #111;
+  font-family: Pretendard, system-ui, -apple-system, "Apple SD Gothic Neo",
+    "Noto Sans KR", sans-serif;
+
+  width: 100%;
+  max-width: 1720px;
+  margin: 0 auto;
+  overflow-x: hidden;
+
+  padding: 14px 20px 60px;
+}
+
+/* 기본: 컨텐츠 폭(=page 폭) 안에서만 */
+.fullLine {
+  height: var(--lineW);
+  background: var(--line);
+  width: 100%;
+}
+
+/* 상단 바 */
+.topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0px 0 8px;
+}
+
+.backBtn {
+  grid-column: 3;
+  justify-self: end;
+  text-align: left;
+}
+
+.topbarTitle {
+  grid-column: 2;
+  justify-self: center;
+  text-align: center;
+  font-size: 20px;
+  color: #000;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+/* === Overview === */
+.overview {
+  padding: 80px 16px 100px;
+}
+
+@media (max-width: 768px) {
+  .overview {
+    padding: 40px 16px 40px;
+  }
+}
+
+/* 텍스트 영역 */
+.overviewCenterCol {
+  position: relative;
+  max-width: 1600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* 라벨(Overview) */
+.overviewLabel {
+  font-size: 14pt;
+  font-weight: 550;
+  line-height: 1.2;
+  cursor: pointer;
+  margin-top: 15px;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 50px;
+}
+
+/* 오버뷰 본문 */
+.overviewText {
+  color: #000;
+  text-align: center;
+  font-size: 13pt;
+
+  max-width: 1300px;
+  margin: 0 auto 28px;
+
+  line-height: 1.85;
+  letter-spacing: -0.01em;
+
+  word-break: keep-all;
+  line-break: strict;
+  overflow-wrap: break-word;
+}
+
+.overviewText.en {
+  color: #A1A1A1;
+  text-align: center;
+
+  max-width: 1300px;
+  margin: 0 auto 80px;
+
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+
+  overflow-wrap: break-word;
+}
+
+.overviewColText {
+  padding-top: 6px;
+  min-width: 0;
+}
+
+/* dot + label wrapper */
+.overviewLabelWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0px;
+}
+
+.overviewDot {
+  width: 10px;
+  height: 10px;
+  background: #09FF8E;
+  border-radius: 50%;
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 이미지 공통 */
+.posterImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* (남아있던 posterBox 선언 유지) */
+.posterBox {
+  border: none;
+  background: transparent;
+  width: 240px;
+}
+
+.divider {
+  display: none !important;
+}
+
+/* ✅ 실제로 먹는 셀렉터 (아래 그대로 쓰면 됨) */
+.teamRow:has(.teamColName .teamName:hover) .thumbImg {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* === 팀 리스트 === */
+.teamList {
+  margin-top: 5px;
+}
+
+.teamRow {
+  display: grid;
+  grid-template-columns: 140px 260px 360px 1fr;
+  column-gap: 24px;
+  row-gap: 0;
+  padding-top: 22px;
+  padding-bottom: 30px;
+}
+
+@media (max-width: 1400px) {
+  .teamRow {
+    grid-template-columns: 120px 200px 300px 1fr;
+    column-gap: 15px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .teamRow {
+    grid-template-columns: 140px 1fr;
+    column-gap: 20px;
+  }
+
+  .teamColInfo {
+    padding-left: 0 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .teamRow {
+    grid-template-columns: 1fr;
+    row-gap: 16px;
+  }
+
+  .thumbBox {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* 첫 번째 팀 제외하고만 줄 추가 */
+.teamRow+.teamRow {
+  border-top: var(--lineW) solid var(--line);
+}
+
+/* 썸네일 박스 */
+.thumbBox {
+  width: 260px;
+  aspect-ratio: 1 / 1;
+  border: none;
+  background: transparent;
+  overflow: hidden;
+}
+
+.thumbBox.isActive {
+  border: none;
+  background: #fff;
+}
+
+/* ✅ 팀 hover 이미지(기본 숨김, row hover 시 표시) */
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 120ms ease;
+}
+
+.teamRow:hover .thumbImg {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* 팀명 버튼 */
+.teamName {
+  all: unset;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+
+.teamName:hover {
+  opacity: 0.75;
+}
+
+/* 팀 dot */
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: #09FF8E;
+  border-radius: 50%;
+  margin-left: 8px;
+  transform: translateY(0px);
+}
+
+.members {
+  font-size: 12pt;
+  font-weight: 500;
+  line-height: 1.7;
+  color: #333;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+  .members {
+    font-size: 11pt;
+  }
+}
+
+.bullets li {
+  font-weight: 300;
+}
+
+/* 반응형 */
+@media (max-width: 1024px) {
+  .overview {
+    grid-template-columns: 1fr;
+  }
+
+  .thumbBox {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+/* 공통 컬럼 */
+.teamCol {
+  min-width: 0;
+}
+
+/* 1) 팀명 칸 */
+.teamColName {
+  padding-top: 6px;
+  padding-right: 0;
+}
+
+/* 2) 이미지 칸 */
+.teamColImage {
+  padding-top: 6px;
+}
+
+/* 3) 멤버/연락처 칸 */
+.teamColInfo {
+  padding-top: 0px;
+  padding-left: 40px;
+}
+
+@media (max-width: 1200px) {
+  .teamColInfo {
+    padding-left: 0;
+    margin-top: 10px;
+  }
+}
+
+/* 멤버/연락처 박스 */
+.infoBox {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+}
+
+.contacts {
+  color: #A1A1A1;
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+/* 4) 설명글 칸 */
+.teamColDesc {
+  padding-top: 14px;
+  word-break: keep-all;
+  line-break: strict;
+}
+
+.descP {
+  margin: 0 0 14px 0;
+  font-size: 12pt;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #222;
+
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-break: strict;
+}
+
+@media (max-width: 768px) {
+  .descP {
+    font-size: 11pt;
+  }
+}
+
+/* 소모임 섹션 */
+.smallGroups {
+  padding: 22px 0 0;
+}
+
+/* 기준을 텍스트 컬럼으로 */
+.overviewCenterCol {
+  position: relative;
+}
+
+/* hover 기준점: 라벨 영역 */
+.overviewHoverArea {
+  position: relative;
+  display: inline-block;
+}
+
+/* 포스터: 라벨 기준으로 오른쪽에 작게 */
+.overviewPosterFloat {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 12px);
+  /* 라벨 바로 오른쪽 */
+  transform: translateY(-50%);
+
+  width: 240px;
+  z-index: 9999;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 120ms ease;
+  pointer-events: none;
+}
+
+.overviewHoverArea:hover .overviewPosterFloat {
+  opacity: 1;
+  visibility: visible;
+}

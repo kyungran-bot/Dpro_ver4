@@ -1,0 +1,749 @@
+/* Google Fonts import for premium feel */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+:root {
+    --bg-color: #000000;
+    --transition-speed: 0.6s;
+    --hover-scale: 1.05;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    touch-action: manipulation;
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: transparent;
+    /* Changed from black to transparent */
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Fallback background on html to prevent white flash, but won't cover video */
+html {
+    background-color: var(--bg-color);
+}
+
+
+/* Video Background Styling */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    /* Charged to 1 to ensure it's above the body backdrop */
+    object-fit: contain;
+    /* Ensure full video is visible, like a photo */
+    filter: brightness(1.0);
+    transform: scale(1);
+    /* Full size */
+    transition: filter var(--transition-speed) ease,
+        transform var(--transition-speed) ease;
+}
+
+/* Hide potential browser-default play buttons */
+video::-webkit-media-controls {
+    display: none !important;
+}
+
+video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    -webkit-appearance: none;
+}
+
+video::-webkit-media-controls-play-button {
+    display: none !important;
+    -webkit-appearance: none;
+}
+
+
+
+
+/* Hover Container */
+.hover-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+    z-index: 100;
+    /* Ensure it's way above the video */
+    background: transparent;
+    /* Ensure it doesn't block video but captures events */
+}
+
+/* Hover Image Styling */
+.hover-image {
+    position: fixed;
+    /* Fixed to cover entire screen */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    /* Fill screen on hover */
+    opacity: 0;
+    transform: scale(1.1);
+    pointer-events: none;
+    /* Let the container handle hover */
+    transition: opacity var(--transition-speed) cubic-bezier(0.165, 0.84, 0.44, 1),
+        transform var(--transition-speed) cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 200;
+    /* Above everything else */
+}
+
+
+/* Hover State */
+.hover-container:hover .hover-image {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.center-hover-img-m {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 2000;
+    display: none;
+    pointer-events: none;
+}
+
+@media (max-width: 1080px) {
+    .hover-container:hover .hover-image {
+        opacity: 0 !important;
+    }
+}
+
+
+.hover-container:hover .hover-center-dot {
+    opacity: 0;
+}
+
+/* Optional: Blur background on hover for premium effect */
+.hover-container:hover~.video-background {
+    filter: brightness(0.3) blur(20px);
+    /* More dramatic blur */
+    transform: scale(1.05);
+    /* Slight zoom in on background when blurring */
+}
+
+/* Next Screen Styles */
+#next-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #FFFFFF;
+    z-index: 10000;
+    /* Higher than scene */
+    display: none;
+    /* Initially hidden */
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+#next-screen.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Central Bar */
+.central-bar {
+    position: absolute;
+    width: 12%;
+    max-width: 200px;
+    height: 100vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #3F3F3F;
+    z-index: 1;
+}
+
+/* Content Containers */
+.left-content,
+.right-content {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+    padding: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.left-content {
+    align-items: flex-start;
+    padding-left: 15%;
+    padding-top: 100px;
+}
+
+.right-content {
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding-right: 15%;
+    padding-bottom: 100px;
+}
+
+/* Home Button */
+.home-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 60px;
+    transition: transform 0.2s;
+    position: relative;
+}
+
+/* White mask to hide the small black dot artifact to the left of the arrow */
+.home-button::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 20px;
+    background: white;
+    z-index: 1;
+}
+
+
+.home-button:hover {
+    transform: translateX(5px);
+}
+
+.home-text:hover {
+    color: #1AC677;
+}
+
+.home-arrow {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-left: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-top: 2px solid transparent;
+    border-right: 2px solid transparent;
+    transform: rotate(45deg);
+    margin-right: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.home-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000;
+    transition: color 0.2s;
+    color: #000;
+}
+
+/* D Logo */
+.dpro-logo {
+    margin-bottom: 46px;
+}
+
+.dpro-logo img {
+    height: 100px;
+    width: auto;
+    transform: none;
+}
+
+/* Menu Items */
+.menu-items {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 2;
+    color: #000000;
+}
+
+.menu-items div {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.menu-items div:hover {
+    color: #1AC677;
+}
+
+/* Social Info */
+.social-info {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #1E1E1E;
+    text-align: right;
+    margin-bottom: 60px;
+}
+
+/* Footer Logos */
+.footer-logos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+    margin-bottom: 60px;
+}
+
+.footer-dpo {
+    height: 40px;
+    width: auto;
+}
+
+.footer-ewha {
+    height: 55px;
+    width: auto;
+}
+
+@media (max-width: 1024px) {
+
+    .left-content,
+    .right-content {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #1E1E1E;
+        text-align: right;
+        margin-bottom: 60px;
+        padding: 50px;
+    }
+
+    /* Footer Logos */
+    .footer-logos {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 15px;
+        margin-bottom: 60px;
+    }
+
+    .footer-dpo {
+        height: 40px;
+        width: auto;
+    }
+
+    .footer-ewha {
+        height: 55px;
+        width: auto;
+    }
+
+    .central-bar {
+        width: 11%;
+    }
+}
+
+/* Auto-scroll specific styles */
+.central-bar {
+    overflow: hidden;
+    position: absolute;
+    width: 12%;
+    max-width: 200px;
+    height: 100vh;
+    left: 50%;
+    transform: none;
+    background: #3F3F3F;
+    z-index: 1;
+}
+
+.scrolling-images {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    animation: scroll-vertical 20s linear infinite;
+}
+
+.scrolling-images img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+@keyframes scroll-vertical {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-50%);
+    }
+}
+
+.central-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Custom Cursor CSS - Home Screen Version */
+* {
+    cursor: none !important;
+}
+
+.custom-cursor {
+    position: fixed;
+    pointer-events: none;
+    z-index: 999999;
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    transform: translate(-7px, -7px);
+}
+
+.cursor-circle {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #09FF8E;
+    flex-shrink: 0;
+}
+
+.cursor-text {
+    color: #1AC677;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+}
+
+/* Hide text when TOC is visible */
+#next-screen.active~.custom-cursor .cursor-text,
+#next-screen[style*="display: flex"]~.custom-cursor .cursor-text,
+body.toc-active .custom-cursor .cursor-text {
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+
+/* Hide hover images when TOC is visible */
+#next-screen.active~.center-hover-img,
+#next-screen[style*="display: flex"]~.center-hover-img,
+#next-screen.active~.hover-trigger,
+#next-screen[style*="display: flex"]~.hover-trigger,
+#next-screen.active~.hover-container,
+#next-screen[style*="display: flex"]~.hover-container,
+#next-screen.active~.interaction-container .center-hover-img,
+#next-screen.active~.interaction-container .hover-trigger {
+    display: none !important;
+    pointer-events: none !important;
+}
+
+
+/* Standardized TOC Styles from Home 1 */
+
+.left-content {
+    align-items: flex-start;
+    padding-left: 15% !important;
+    padding-top: 100px !important;
+}
+
+.home-button {
+    display: flex !important;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 60px !important;
+    margin-top: 0 !important;
+    transition: transform 0.2s;
+    position: relative;
+}
+
+/* White mask to hide the small black dot artifact to the left of the arrow */
+.home-button::before {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 20px;
+    background: white;
+    z-index: 1;
+}
+
+.home-arrow {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-left: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-top: 2px solid transparent;
+    border-right: 2px solid transparent;
+    transform: rotate(45deg);
+    margin-right: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.home-text {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 18px !important;
+    color: #000;
+    transition: color 0.2s;
+}
+
+.dpro-logo {
+    margin-bottom: 46px !important;
+}
+
+.dpro-logo img {
+    height: 100px !important;
+    width: auto !important;
+    transform: none !important;
+}
+
+.menu-items {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px !important;
+    line-height: 2 !important;
+    color: #000000;
+}
+
+
+
+/* Hide scroll hint ONLY when TOC is visible */
+.scroll-hint {
+    display: block !important;
+    /* Default to visible */
+}
+
+#next-screen.active~.scroll-hint,
+#next-screen[style*="display: flex"]~.scroll-hint {
+    display: none !important;
+}
+
+/* Mobile Responsive TOC (Next Screen) */
+@media (max-width: 768px) {
+    #next-screen {
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        overflow-y: auto !important;
+        padding: 40px 0 !important;
+    }
+
+    .central-bar {
+        position: relative !important;
+        left: auto !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 15vh !important;
+        margin: 20px 0 !important;
+        order: 2 !important;
+    }
+
+    .left-content,
+    .right-content {
+        padding: 20px !important;
+        flex: none !important;
+        width: 100% !important;
+        height: auto !important;
+        align-items: center !important;
+        text-align: center !important;
+        position: relative !important;
+    }
+
+    .left-content {
+        order: 1 !important;
+        padding-top: 20px !important;
+    }
+
+    .right-content {
+        order: 3 !important;
+        padding-bottom: 60px !important;
+    }
+
+    .dpro-logo {
+        margin-bottom: 20px !important;
+    }
+
+    .dpro-logo img {
+        height: 60px !important;
+        width: auto !important;
+    }
+
+    .menu-items {
+        font-size: 15px !important;
+        line-height: 2 !important;
+        width: 100% !important;
+    }
+
+    .social-info {
+        font-size: 13px !important;
+        text-align: center !important;
+        margin-bottom: 20px !important;
+    }
+
+    .footer-logos {
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 20px !important;
+    }
+
+    .footer-dpo {
+        height: 25px !important;
+    }
+
+    .footer-ewha {
+        height: 35px !important;
+    }
+
+    .home-button {
+        margin-bottom: 20px !important;
+    }
+
+    /* 모바일에서 커서 텍스트 숨김 */
+    .cursor-text {
+        display: none !important;
+    }
+}
+
+/* Mobile & Tablet Responsive TOC (Next Screen) */
+@media (max-width: 1080px) {
+    #next-screen {
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        overflow-y: hidden !important;
+        overflow-x: hidden !important;
+        padding: 20px 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        left: 0 !important;
+        top: 0 !important;
+    }
+
+    .central-bar {
+        position: relative !important;
+        left: 0 !important;
+        top: auto !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 180px !important;
+        margin: 15px 0 !important;
+        order: 2 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .left-content,
+    .right-content {
+        padding: 0 20px !important;
+        flex: none !important;
+        width: 100% !important;
+        height: auto !important;
+        align-items: center !important;
+        text-align: center !important;
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+    }
+
+    .left-content {
+        order: 1 !important;
+        padding-top: 0 !important;
+        margin-bottom: 10px !important;
+    }
+
+    .right-content {
+        order: 3 !important;
+        padding-top: 10px !important;
+        padding-bottom: 20px !important;
+        justify-content: center !important;
+    }
+
+    .home-button {
+        margin-bottom: 15px !important;
+        justify-content: center !important;
+        width: 100% !important;
+        transform: translateY(-50%) !important;
+    }
+
+    .dpro-logo {
+        margin-bottom: 10px !important;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    .dpro-logo img {
+        height: auto !important;
+        width: 45px !important;
+        max-width: 30% !important;
+    }
+
+    .menu-items {
+        font-size: 14px !important;
+        line-height: 2 !important;
+        width: 100% !important;
+    }
+
+    .social-info {
+        font-size: 12px !important;
+        text-align: center !important;
+        margin-bottom: 15px !important;
+        width: 100% !important;
+    }
+
+    .footer-logos {
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 20px !important;
+        width: 100% !important;
+        margin-bottom: 10px !important;
+    }
+
+    .footer-dpo {
+        height: 30px !important;
+        width: auto !important;
+    }
+
+    .footer-ewha {
+        height: 45px !important;
+        width: auto !important;
+    }
+
+    /* Show cursor text on smaller screens */
+    .cursor-text {
+        display: inline !important;
+    }
+}

@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dpro Assembly Exploded View</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <style>
+        :root {
+            --scroll-progress: 0;
+            /* Back lines (Top-left, Top-right) */
+            --back-x-offset: 9%;
+            --back-y-offset: 80.5%;
+            /* Front lines (Bottom-left, Bottom-right) */
+            --front-x-offset: 10%;
+            --front-y-offset: -90.5%;
+            /* Line Length & Height */
+            --line-length: 630px;
+            --line-z-offset: -80px;
+            /* Middle Layer Color Filter (Lighter Green) */
+            --middle-layer-filter: sepia(100%) hue-rotate(70deg) saturate(120%) brightness(100%) drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+        }
+
+        body,
+        html {
+            touch-action: manipulation;
+            margin: 0;
+            padding: 0;
+            height: 400vh;
+            background: #fdfdfd;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            opacity: 0.8;
+            /* Slightly faded so the 3d elements pop more */
+        }
+
+        .scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1500px;
+            z-index: 10;
+        }
+
+        .assembly {
+            position: relative;
+            width: 800px;
+            height: 400px;
+            transform-style: preserve-3d;
+
+            /* Start completely flat, then rotate into 3D isometric view */
+            transform:
+                rotateX(calc(var(--scroll-progress) * 60deg)) rotateZ(calc(var(--scroll-progress) * -35deg)) scale(calc(1 - (var(--scroll-progress) * 0.2)));
+
+            transition: transform 0.1s linear;
+        }
+
+        .layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+
+        .layer img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        /* 1. The fully combined flat photo layer */
+        .combined-photo {
+            transform: translateZ(calc(var(--scroll-progress) * 100px));
+            /* Fades out rapidly during the first 20% of the scroll */
+            opacity: calc(1 - (var(--scroll-progress) * 5));
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
+        }
+
+        /* 2. The 3D Exploding Layers (fade in as the combined photo fades out) */
+        .layer.middle-plate {
+            opacity: calc(var(--scroll-progress) * 5);
+            transform: translateZ(calc(var(--scroll-progress) * -100px));
+            /* Lifted up */
+            filter: drop-shadow(0px calc(var(--scroll-progress) * 30px) 20px rgba(0, 0, 0, 0.3));
+        }
+
+        .layer.middle-plate-green {
+            opacity: calc(var(--scroll-progress) * 5);
+            transform: translateZ(calc(var(--scroll-progress) * 100px));
+            /* Higher up */
+            filter: var(--middle-layer-filter);
+        }
+
+        .layer.top-layer {
+            opacity: calc(var(--scroll-progress) * 5);
+            transform: translateZ(calc(var(--scroll-progress) * 300px)) scale(1.1);
+            /* Even higher */
+        }
+
+        .layer.screws {
+            opacity: calc(var(--scroll-progress) * 0.8);
+            transform: translateZ(calc(var(--scroll-progress) * 500px));
+            /* At the very top */
+        }
+
+        /* Dashed assembly lines */
+        .assembly-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            transform: translateZ(0);
+            transform-style: preserve-3d;
+        }
+
+        .line {
+            position: absolute;
+            width: 1px;
+            background: rgba(0, 0, 0, 0.3);
+            height: calc(var(--scroll-progress) * var(--line-length));
+            transform: translateZ(calc(var(--scroll-progress) * var(--line-z-offset))) rotateX(90deg);
+            transform-origin: top center;
+        }
+
+        .line.top-left {
+            top: var(--back-y-offset);
+            left: var(--back-x-offset);
+        }
+
+        .line.top-right {
+            top: var(--back-y-offset);
+            right: var(--back-x-offset);
+        }
+
+        .line.bottom-left {
+            bottom: var(--front-y-offset);
+            left: var(--front-x-offset);
+        }
+
+        .line.bottom-right {
+            bottom: var(--front-y-offset);
+            right: var(--front-x-offset);
+        }
+
+        /* Hover Trigger */
+        .hover-trigger {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(500px);
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0);
+            z-index: 5000;
+            cursor: pointer;
+        }
+
+        /* Hover Overlay Styles */
+        .hover-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100.1vw;
+            height: 100.1vh;
+            background: none;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .hover-overlay.active {
+            opacity: 1;
+        }
+
+        .hover-overlay img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .center-hover-img-m {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 2000;
+            display: none;
+            pointer-events: none;
+        }
+
+        @media (max-width: 1080px) {
+            .hover-overlay.active {
+                opacity: 0 !important;
+            }
+        }
+
+        /* Custom Cursor */
+        * {
+            cursor: none !important;
+        }
+
+        .custom-cursor {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999999;
+            display: flex !important;
+            align-items: center;
+            gap: 10px;
+            transform: translate(-7px, -7px);
+        }
+
+        .cursor-circle {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #09FF8E;
+            flex-shrink: 0;
+        }
+
+        .cursor-text {
+            color: #1AC677;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            white-space: nowrap;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Hide cursor text when TOC is visible */
+        #next-screen.active~.custom-cursor .cursor-text,
+        #next-screen[style*="display: flex"]~.custom-cursor .cursor-text {
+            opacity: 0 !important;
+        }
+
+        /* TOC Screen */
+        #next-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #FFFFFF;
+            z-index: 10000;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        #next-screen.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Central Bar */
+        .central-bar {
+            position: absolute;
+            width: 12%;
+            max-width: 200px;
+            height: 100vh;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3F3F3F;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .scrolling-images {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            animation: scroll-vertical 20s linear infinite;
+        }
+
+        .scrolling-images img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        @keyframes scroll-vertical {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-50%);
+            }
+        }
+
+        .central-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .left-content,
+        .right-content {
+            flex: 1;
+            height: 100%;
+            position: relative;
+            z-index: 2;
+            padding: 100px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-content {
+            align-items: flex-start;
+            padding-left: 15%;
+            padding-top: 100px;
+            transform: translateY(9%);
+        }
+
+        .right-content {
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding-right: 15%;
+            padding-bottom: 100px;
+        }
+
+        .home-button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 60px;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        /* White mask to hide the small black dot artifact to the left of the arrow */
+        .home-button::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 20px;
+            background: white;
+            z-index: 1;
+        }
+
+
+        .home-button:hover {
+            transform: translateX(5px);
+        }
+
+        .home-arrow {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-left: 2px solid #000;
+            border-bottom: 2px solid #000;
+            border-top: 2px solid transparent;
+            border-right: 2px solid transparent;
+            transform: rotate(45deg);
+            margin-right: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .home-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: #000;
+        }
+
+        .home-text:hover {
+            color: #1AC677;
+        }
+
+        .dpro-logo {
+            margin-bottom: 46px;
+        }
+
+        .dpro-logo img {
+            height: 100px;
+            width: auto;
+            transform: none;
+        }
+
+        .menu-items {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 2;
+            color: #000000;
+        }
+
+        .menu-items div {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .menu-items div:hover {
+            color: #1AC677;
+        }
+
+        .social-info {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #1E1E1E;
+            text-align: right;
+            margin-bottom: 60px;
+        }
+
+        .footer-logos {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+
+        .footer-dpo {
+            height: 40px;
+            width: auto;
+        }
+
+        .footer-ewha {
+            height: 55px;
+            width: auto;
+        }
+
+        /* Hide Scroll Hint ONLY when TOC is visible */
+        .scroll-hint {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            font-family: 'Pretendard', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: #000;
+            display: block !important;
+        }
+
+        #next-screen.active~.scroll-hint,
+        #next-screen[style*="display: flex"]~.scroll-hint {
+            display: none !important;
+        }
+
+        /* Mobile & Tablet Responsive TOC (Next Screen) */
+        @media (max-width: 1080px) {
+            #next-screen {
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                overflow-y: hidden !important;
+                overflow-x: hidden !important;
+                padding: 20px 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                left: 0 !important;
+                top: 0 !important;
+            }
+
+            .central-bar {
+                position: relative !important;
+                left: 0 !important;
+                top: auto !important;
+                transform: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 180px !important;
+                margin: 15px 0 !important;
+                order: 2 !important;
+                flex-shrink: 0 !important;
+            }
+
+            .left-content,
+            .right-content {
+                padding: 0 20px !important;
+                flex: none !important;
+                width: 100% !important;
+                height: auto !important;
+                align-items: center !important;
+                text-align: center !important;
+                position: relative !important;
+                left: auto !important;
+                right: auto !important;
+                transform: none !important;
+                margin-left: 0 !important;
+            }
+
+            .left-content {
+                order: 1 !important;
+                padding-top: 0 !important;
+                margin-bottom: 10px !important;
+                transform: none !important;
+            }
+
+            .right-content {
+                order: 3 !important;
+                padding-top: 10px !important;
+                padding-bottom: 20px !important;
+                justify-content: center !important;
+            }
+
+            .home-button {
+                margin-bottom: 15px !important;
+                justify-content: center !important;
+                width: 100% !important;
+                transform: translateY(-50%) !important;
+            }
+
+            .dpro-logo {
+                margin-bottom: 10px !important;
+                width: 100% !important;
+                display: flex !important;
+                justify-content: center !important;
+            }
+
+            .dpro-logo img {
+                height: auto !important;
+                width: 45px !important;
+                max-width: 30% !important;
+            }
+
+            .menu-items {
+                font-size: 14px !important;
+                line-height: 2 !important;
+                width: 100% !important;
+            }
+
+            .social-info {
+                font-size: 12px !important;
+                text-align: center !important;
+                margin-bottom: 15px !important;
+                width: 100% !important;
+            }
+
+            .footer-logos {
+                flex-direction: row !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 20px !important;
+                width: 100% !important;
+                margin-bottom: 10px !important;
+            }
+
+            .footer-dpo {
+                height: 30px !important;
+                width: auto !important;
+            }
+
+            .footer-ewha {
+                height: 45px !important;
+                width: auto !important;
+            }
+
+            /* Show custom cursor text on mobile */
+            .cursor-text {
+                display: inline !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scroll-hint">
+        Scroll <span style="font-family: 'borgalt', sans-serif; color: #1AC677;">Dpro!</span>
+    </div>
+
+    <div class="scene">
+        <div class="assembly">
+            <div class="assembly-lines">
+                <div class="line top-left"></div>
+                <div class="line top-right"></div>
+                <div class="line bottom-left"></div>
+                <div class="line bottom-right"></div>
+            </div>
+
+            <div class="hover-trigger"></div>
+
+            <div class="layer combined-photo"><img src="combined.png" alt="Dpro Combined"></div>
+            <div class="layer middle-plate"><img src="base_plate.png" alt="Middle Plate"></div>
+            <div class="layer middle-plate-green"><img src="top_layer.png" alt="Green Top Text"></div>
+            <div class="layer top-layer"><img src="top_layer.png" alt="Top Layer"></div>
+            <div class="layer screws"><img src="screws.png" alt="Screws"></div>
+        </div>
+    </div>
+
+    <div class="hover-overlay">
+        <img src="hover_image.png" alt="Hover Overlay">
+        <img src="../../hover_image_m.png" alt="Hover Overlay Mobile" class="center-hover-img-m">
+    </div>
+
+    <div id="next-screen">
+        <div class="central-bar">
+            <div class="scrolling-images">
+                <img src="../../autoscroll/507.png" alt="507.png">
+                <img src="../../autoscroll/01.png" alt="01.png">
+                <img src="../../autoscroll/21.png" alt="21.png">
+                <img src="../../autoscroll/6.jpg" alt="6.jpg">
+                <img src="../../autoscroll/DSC03368.JPG" alt="DSC03368.JPG">
+                <img src="../../autoscroll/DSCF3071.JPG" alt="DSCF3071.JPG">
+                <img src="../../autoscroll/KakaoTalk_Photo_2023-03-04-10-16-36%20002.jpeg" alt="002.jpeg">
+                <img src="../../autoscroll/2026-02-28.png" alt="2026-02-28.png">
+                <img src="../../autoscroll/IMAGINE.jpeg" alt="IMAGINE.jpeg">
+                <img src="../../autoscroll/507.png" alt="507.png">
+                <img src="../../autoscroll/01.png" alt="01.png">
+                <img src="../../autoscroll/21.png" alt="21.png">
+                <img src="../../autoscroll/6.jpg" alt="6.jpg">
+                <img src="../../autoscroll/DSC03368.JPG" alt="DSC03368.JPG">
+                <img src="../../autoscroll/DSCF3071.JPG" alt="DSCF3071.JPG">
+                <img src="../../autoscroll/KakaoTalk_Photo_2023-03-04-10-16-36%20002.jpeg" alt="002.jpeg">
+                <img src="../../autoscroll/2026-02-28.png" alt="2026-02-28.png">
+                <img src="../../autoscroll/IMAGINE.jpeg" alt="IMAGINE.jpeg">
+            </div>
+        </div>
+        <div class="left-content">
+            <div class="home-button">
+                <span class="home-arrow"></span>
+                <span class="home-text">go to Home</span>
+            </div>
+            <div class="dpro-logo">
+                <img src="dprologo.png" alt="Dpro Logo">
+            </div>
+            <div class="menu-items">
+                <a href="../../Dpro%3F/index2.html" style="text-decoration:none; color:inherit; display:block;">
+                    <div>디프로란?</div>
+                </a>
+                <a href="../../archive1/index.html?tab=cohort"
+                    style="text-decoration:none; color:inherit; display:block;">
+                    <div>기수별 활동</div>
+                </a>
+                <a href="../../Seniors_active/index3.html" style="text-decoration:none; color:inherit; display:block;">
+                    <div>선배님들 활동</div>
+                </a>
+            </div>
+        </div>
+        <div class="right-content">
+            <div class="social-info">Instagram @designtobeapro<br>E-mail designtobeapro@gmail.com</div>
+            <div class="footer-logos">
+                <img src="dpo.svg" alt="Dpro text logo" class="footer-dpo">
+                <img src="ewha.svg" alt="Ewha logo" class="footer-ewha">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Assembly scroll logic
+        window.addEventListener('scroll', () => {
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            let progress = window.scrollY / maxScroll;
+            if (progress > 1) progress = 1;
+            if (progress < 0) progress = 0;
+            document.documentElement.style.setProperty('--scroll-progress', progress);
+        });
+
+        // Toggle TOC
+        const nextScreen = document.getElementById('next-screen');
+        const trigger = document.querySelector('.hover-trigger');
+        const overlay = document.querySelector('.hover-overlay');
+
+        window.addEventListener('dblclick', () => {
+            nextScreen.style.display = 'flex';
+            setTimeout(() => {
+                nextScreen.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }, 10);
+        });
+
+        const homeBtn = document.querySelector('.home-button');
+        if (homeBtn) {
+            homeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                redirectToRandomHome();
+            });
+        }
+
+        function redirectToRandomHome() {
+            const homes = [
+                "Home_1.html",
+                "Home_2/Home_2.html",
+                "Home_3/Home_3.html",
+                "Home_4/Home_4.html",
+                "Home_5/index.html",
+                "Home_6/index.html",
+                "Home_7/index.html"
+            ];
+            const currentPath = window.location.pathname;
+            const availableHomes = homes.filter(home => !currentPath.endsWith(home));
+            const randomHome = availableHomes[Math.floor(Math.random() * availableHomes.length)];
+            // Home_6 is in a subfolder, so paths need to go up one level
+            window.location.href = '../' + randomHome;
+        }
+
+        // Hover image logic
+        const hoverImgM = document.querySelector('.center-hover-img-m');
+        if (trigger && overlay) {
+            trigger.addEventListener('mouseenter', () => {
+                if (window.innerWidth > 1080) {
+                    const isVisible = nextScreen.classList.contains('active') || nextScreen.style.display === 'flex';
+                    if (!isVisible) { overlay.classList.add('active'); }
+                }
+            });
+            trigger.addEventListener('mouseleave', () => {
+                if (window.innerWidth > 1080) {
+                    overlay.classList.remove('active');
+                }
+            });
+
+            // Mobile touch interaction
+            trigger.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1080) {
+
+                    const isVisible = nextScreen.classList.contains('active') || nextScreen.style.display === 'flex';
+                    if (isVisible) return;
+
+                    const isCurrentlyVisible = hoverImgM && hoverImgM.style.display === "block";
+                    if (hoverImgM) {
+                        hoverImgM.style.display = isCurrentlyVisible ? "none" : "block";
+                    }
+                }
+            });
+
+            // Hide mobile hover image if clicking anywhere else
+            window.addEventListener('click', (e) => {
+                if (window.innerWidth <= 1080 && hoverImgM) {
+                    if (trigger && trigger.contains(e.target)) return;
+                    hoverImgM.style.display = "none";
+                }
+            });
+        }
+
+        // Custom Cursor
+        (function () {
+            if (document.querySelector('.custom-cursor')) return;
+            const container = document.createElement('div');
+            container.className = 'custom-cursor';
+            const circle = document.createElement('div');
+            circle.className = 'cursor-circle';
+            const text = document.createElement('span');
+            text.className = 'cursor-text';
+            text.innerText = window.innerWidth <= 1080 ? 'Double Tab!' : 'Double click!';
+            container.appendChild(circle);
+            container.appendChild(text);
+            document.body.appendChild(container);
+            window.addEventListener('mousemove', (e) => {
+                container.style.left = e.clientX + 'px';
+                container.style.top = e.clientY + 'px';
+
+                // Hide text when TOC is visible
+                const isTOC = nextScreen.classList.contains('active') || nextScreen.style.display === 'flex';
+                text.style.opacity = isTOC ? '0' : '1';
+                text.style.pointerEvents = isTOC ? 'none' : 'auto';
+            });
+        })();
+    </script>
+    <script>
+        let lastTap = 0;
+        const threshold = 350; // 두 번 탭 인식 시간(ms)
+
+        document.addEventListener("click", (e) => {
+            const now = Date.now();
+            if (now - lastTap < threshold) {
+                // 기존 dblclick 이벤트를 발생시켜 목차 페이지(next-screen)를 엽니다.
+                window.dispatchEvent(new MouseEvent('dblclick'));
+            }
+            lastTap = now;
+        }, { capture: true });
+    </script>
+</body>
+
+</html>

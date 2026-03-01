@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024 EWHA DESIGN ARCHIVE - ABOUT</title>
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="stylesheet" href="style3.css">
+<style>
+
+
+/* Custom Cursor CSS */
+* {
+    cursor: none !important;
+}
+
+.custom-cursor {
+    position: fixed;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: #09FF8E;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 999999;
+    display: block !important;
+}
+
+</style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-inner">
+            <div class="brand">
+                <a href="#" id="random-home-link"> <img src="logo2.png" alt="Dpro Top Logo" class="brand__logo">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="wrapper">
+        <main class="content">
+            <section class="text-section">
+
+                <div class="intro-visual-group">
+                    <img src="logo.png" alt="Dpro Logo" class="intro-logo-image">
+                    <p class="intro-slogan">Design to be a Pro</p>
+                </div>
+
+                <div class="archive-row">
+                    <div class="summary">
+                        <span class="dot"></span>
+                        디프로미나드 기수 톡방
+                    </div>
+                    <div class="description">
+                        <p>디프로는 현재 기수와 이전 기수 부원들이 자연스럽게 소통할 수 있도록 기수 통합 톡방을 운영하고 있습니다. 이곳에서는 인턴·디자이너 공고, 세미나 정보, 전시 홍보 등
+                            디자인을 공부하는 학생들에게 실질적인 도움이 되는 교류들이 지금까지도 이어지고 있습니다.</p>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.querySelector('.brand a').addEventListener('click', function (e) {
+            e.preventDefault();
+            const homes = [
+                '../Home_1/Home_1.html',
+                '../Home_1/Home_2/Home_2.html',
+                '../Home_1/Home_3/Home_3.html',
+                '../Home_1/Home_4/Home_4.html',
+                '../Home_1/Home_5/index.html',
+                '../Home_1/Home_6/index.html',
+                '../Home_1/Home_7/index.html'
+            ];
+            const randomHome = homes[Math.floor(Math.random() * homes.length)];
+            window.location.href = randomHome;
+        });
+    </script>
+<script>
+</script>
+<script>
+</script>
+<script>
+/* Custom Cursor JS */
+(function() {
+    if (document.querySelector('.custom-cursor')) return;
+    const cursor = document.createElement('div');
+    cursor.className = 'custom-cursor';
+    document.body.appendChild(cursor);
+
+    window.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+})();
+</script>
+</body>
+
+</html>

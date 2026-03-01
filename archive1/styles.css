@@ -1,0 +1,443 @@
+/* styles.css (전체) */
+:root {
+  --maxw: 1920px;
+
+  --black: #000000;
+  --muted: #a1a1a1;
+  --dot: #09FF8E;
+
+  /* Figma numbers - Default for large screens (>1400px) */
+  --rulew: 1854px;
+  --ruleSide: 33px;
+  --contentLeft: 42px;
+  --textStart: 653px;
+  --leftCol: 140px;
+  --colGap: min(471px, 25vw);
+  /* Make the massive gap flexible */
+}
+
+/* Global responsive reset */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: var(--black);
+  font-family: "Pretendard Variable", Pretendard, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* 커스텀 커서 쓸 때만 기본 커서 숨김 (데스크탑/마우스 환경) */
+@media (pointer: fine) {
+
+  html,
+  body {
+    cursor: none;
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: #09FF8E;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 999999;
+}
+
+/* ===== Header spacing (Figma exact) ===== */
+.header {
+  padding-top: 28px;
+  /* 로고 top 28 */
+  padding-bottom: 0;
+}
+
+.brand {
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.011em;
+}
+
+.brand__logo {
+  display: block;
+  margin: 0 auto;
+  height: 28px;
+  width: auto;
+}
+
+/* lines */
+.rule {
+  width: min(var(--rulew), calc(100% - (var(--ruleSide) * 2)));
+  height: 1px;
+  background: var(--black);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 로고 -> 첫 선 */
+.rule--after-logo {
+  margin-top: 20px;
+}
+
+/* 첫 선 -> 탭 */
+.tabs {
+  margin-top: 11px;
+}
+
+/* 탭 -> 둘째 선 */
+.rule--after-tabs {
+  margin-top: 12px;
+}
+
+/* 둘째 선 -> 기수 */
+.cohorts {
+  margin-top: 11px;
+}
+
+/* 기수 -> 셋째 선 */
+.rule--after-cohorts {
+  margin-top: 12px;
+}
+
+/* ===== tabs ===== */
+.tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.011em;
+  font-weight: 500;
+}
+
+.tab {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: var(--muted);
+  font: inherit;
+}
+
+.tab.is-active {
+  color: var(--black);
+  font-weight: 500;
+}
+
+.tab-sep {
+  color: var(--black);
+  font-weight: 500;
+}
+
+/* ===== cohorts ===== */
+.cohorts {
+  display: flex;
+  justify-content: center;
+  gap: 90px;
+  flex-wrap: wrap;
+
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.011em;
+  font-weight: 500;
+}
+
+.cohort {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  color: var(--muted);
+  font: inherit;
+  text-align: center;
+}
+
+.cohort.is-active {
+  color: var(--black);
+  font-weight: 500;
+}
+
+/* ===== Main ===== */
+.main {
+  width: min(var(--maxw), 100%);
+  margin: 0 auto;
+  padding: 40px 0 90px;
+}
+
+.view {
+  display: none;
+}
+
+.view.is-active {
+  display: block;
+}
+
+.view-title {
+  text-align: center;
+  margin: 0 0 44px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.011em;
+  color: var(--black);
+}
+
+/* ===== Rows layout ===== */
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 128px;
+}
+
+.row {
+  padding-left: var(--contentLeft);
+  padding-right: var(--contentLeft);
+  display: grid;
+  grid-template-columns: var(--leftCol) 1fr;
+  column-gap: var(--colGap);
+  align-items: start;
+  width: 100%;
+}
+
+.row-left {
+  display: flex;
+  align-items: center;
+  /* ✅ 세로 가운데 */
+  gap: 8px;
+}
+
+.row-label {
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.011em;
+  font-weight: 500;
+  color: var(--black);
+}
+
+/* ✅ label hover용(기수 DBDB 등) */
+.row-label.is-link {
+  cursor: pointer;
+}
+
+.row-label.is-link:hover {
+  text-decoration: underline;
+}
+
+/* ✅ dot 세로 어긋남 해결 */
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--dot);
+  margin-top: 0;
+  flex: 0 0 auto;
+}
+
+.row-right {
+  max-width: 1232px;
+}
+
+.text-body {
+  margin: 0;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.011em;
+  font-weight: 300;
+  color: var(--black);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.text-title {
+  margin: 0 0 8px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.text-sub {
+  margin: 0 0 14px;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.members {
+  margin: 12px 0 0;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.011em;
+  font-weight: 200;
+  color: var(--muted) !important;
+}
+
+.text-body,
+.members {
+  white-space: pre-line;
+}
+
+/* sub를 “클릭 가능한 강조 텍스트”로 */
+.text-sub.is-link {
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.text-sub.is-link:hover {
+  text-decoration: underline;
+}
+
+/* 뎁스2 Back 버튼 */
+.detail-back {
+  margin: 0 0 18px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  color: #000;
+}
+
+/* 호버 프리뷰 툴팁 */
+.hover-preview {
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: translate(12px, 12px);
+  display: none;
+  z-index: 1000000;
+  /* ✅ 커스텀 커서보다 위 */
+  pointer-events: none;
+}
+
+.hover-preview img {
+  width: 280px;
+  height: auto;
+  display: block;
+  background: #fff;
+  border: 1px solid #000;
+}
+
+.hover-preview.is-on {
+  display: block;
+}
+
+/* cohort block default */
+.cohort-block {
+  display: block;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1500px) {
+  :root {
+    --colGap: 100px;
+  }
+}
+
+@media (max-width: 1300px) {
+  :root {
+    --ruleSide: 20px;
+    --contentLeft: 30px;
+    --leftCol: 140px;
+    --colGap: 40px;
+  }
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --colGap: 24px;
+    --leftCol: 120px;
+  }
+
+  .row {
+    grid-template-columns: 120px 1fr;
+  }
+
+  .cohorts {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --ruleSide: 16px;
+    --contentLeft: 16px;
+    --leftCol: auto;
+    --colGap: 12px;
+  }
+
+  .row {
+    padding-left: var(--ruleSide);
+    padding-right: var(--ruleSide);
+    grid-template-columns: 1fr;
+    row-gap: 12px;
+  }
+
+  .row-left {
+    margin-bottom: 0px;
+  }
+
+  .rows {
+    gap: 64px;
+  }
+
+  .cohorts {
+    gap: 20px;
+    padding: 0 16px;
+  }
+
+  .header {
+    padding-top: 20px;
+  }
+
+  .view-title {
+    margin-bottom: 30px;
+  }
+}
+
+/* ✅ archive embed일 때만 Back 버튼을 뎁스2 느낌으로 정렬 */
+#view-detail.is-active .archive-embed+.rows {
+  display: none;
+}
+
+#view-detail .archive-embed {
+  width: 100%;
+}
+
+#view-detail {
+  position: relative;
+}
+
+/* Back 버튼 왼쪽 정렬 */
+#view-detail .detail-back {
+  width: auto;
+  margin: 0 0 18px;
+  padding-left: 33px;
+  display: block;
+  text-align: left;
+}
+
+/* Custom Cursor CSS */
+* {
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: #09FF8E;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 999999;
+  display: block !important;
+}

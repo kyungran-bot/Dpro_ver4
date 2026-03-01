@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPRO - AP Mode</title>
+    <link rel="stylesheet" href="Home_4.css">
+</head>
+
+<body>
+
+    <main class="container">
+        <div class="bg-wrapper">
+            <img src="./Homeasset_4/ap_1.png" id="ap_1" class="bg-img active-bg">
+            <img src="./Homeasset_4/ap_2.png" id="ap_2" class="bg-img">
+        </div>
+
+        <img src="./Homeasset_4/apmove_1.png" id="apmove_1" class="draggable draggable-group"
+            onmousedown="startDrag(event)">
+        <img src="./Homeasset_4/apmove_3.png" id="apmove_3" class="draggable draggable-group hidden-initially"
+            onmousedown="startDrag(event)">
+
+        <img src="./Homeasset_4/ap_bar.png" id="ap_bar" class="scan-bar">
+
+        <div class="hover-trigger"></div>
+        <img src="./Homeasset_4/hover_image.png" class="center-hover-img">
+        <img src="../../hover_image_m.png" class="center-hover-img-m">
+
+    </main>
+
+    <div id="next-screen" style="display: none;">
+        <div class="central-bar">
+            <div class="scrolling-images">
+                <img src="../../autoscroll/507.png" alt="507.png">
+                <img src="../../autoscroll/01.png" alt="01.png">
+                <img src="../../autoscroll/21.png" alt="21.png">
+                <img src="../../autoscroll/6.jpg" alt="6.jpg">
+                <img src="../../autoscroll/DSC03368.JPG" alt="DSC03368.JPG">
+                <img src="../../autoscroll/DSCF3071.JPG" alt="DSCF3071.JPG">
+                <img src="../../autoscroll/KakaoTalk_Photo_2023-03-04-10-16-36%20002.jpeg"
+                    alt="KakaoTalk_Photo_2023-03-04-10-16-36 002.jpeg">
+                <img src="../../autoscroll/2026-02-28.png" alt="2026-02-28.png">
+                <img src="../../autoscroll/IMAGINE.jpeg" alt="IMAGINE.jpeg">
+                <img src="../../autoscroll/507.png" alt="507.png">
+                <img src="../../autoscroll/01.png" alt="01.png">
+                <img src="../../autoscroll/21.png" alt="21.png">
+                <img src="../../autoscroll/6.jpg" alt="6.jpg">
+                <img src="../../autoscroll/DSC03368.JPG" alt="DSC03368.JPG">
+                <img src="../../autoscroll/DSCF3071.JPG" alt="DSCF3071.JPG">
+                <img src="../../autoscroll/KakaoTalk_Photo_2023-03-04-10-16-36%20002.jpeg"
+                    alt="KakaoTalk_Photo_2023-03-04-10-16-36 002.jpeg">
+                <img src="../../autoscroll/2026-02-28.png" alt="2026-02-28.png">
+                <img src="../../autoscroll/IMAGINE.jpeg" alt="IMAGINE.jpeg">
+            </div>
+        </div>
+        <div class="left-content">
+            <div class="home-button">
+                <span class="home-arrow"></span>
+                <span class="home-text">go to Home</span>
+            </div>
+            <div class="dpro-logo">
+                <img src="../dprologo.png" alt="Dpro Logo">
+            </div>
+            <div class="menu-items">
+                <a href="../../Dpro%3F/index2.html" style="text-decoration:none; color:inherit; display:block;">
+                    <div>디프로란?</div>
+                </a>
+                <a href="../../archive1/index.html?tab=cohort"
+                    style="text-decoration:none; color:inherit; display:block;">
+                    <div>기수별 활동</div>
+                </a>
+                <a href="../../Seniors_active/index3.html" style="text-decoration:none; color:inherit; display:block;">
+                    <div>선배님들 활동</div>
+                </a>
+            </div>
+        </div>
+        <div class="right-content">
+            <div class="social-info">
+                Instagram @designtobeapro<br>
+                E-mail designtobeapro@gmail.com
+            </div>
+            <div class="footer-logos">
+                <img src="../dpo.svg" alt="Dpro text logo" class="footer-dpo">
+                <img src="../ewha.svg" alt="Ewha logo" class="footer-ewha">
+            </div>
+        </div>
+    </div>
+    <script>
+        let lastTap = 0;
+        const threshold = 350; // 두 번 탭 인식 시간(ms)
+
+        document.addEventListener("click", (e) => {
+            const now = Date.now();
+            if (now - lastTap < threshold) {
+                // 기존 dblclick 이벤트를 발생시켜 목차 페이지(next-screen)를 엽니다.
+                window.dispatchEvent(new MouseEvent('dblclick'));
+            }
+            lastTap = now;
+        }, { capture: true });
+    </script>
+    <script src="Home_4.js"></script>
+</body>
+
+</html>

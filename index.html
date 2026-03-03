@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DPRO - Random Home Redirect</title>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        (function () {
             const homes = [
                 "Home_1/Home_1.html",
                 "Home_1/Home_2/Home_2.html",
@@ -18,7 +18,7 @@
             ];
             const randomHome = homes[Math.floor(Math.random() * homes.length)];
             window.location.replace('./' + randomHome);
-        });
+        })();
     </script>
     <style>
         /* Custom Cursor CSS */
